@@ -24,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -45,6 +46,8 @@ public class ClientGUIController implements Initializable {
     @FXML
     private Pane centralPane;
     
+    @FXML
+    private HBox hbox;
     
     private TranslateTransition translateTransition;
     
@@ -57,17 +60,21 @@ public class ClientGUIController implements Initializable {
         
         Gson gson = new Gson();
         
-        leftPane.minWidthProperty().bind(borderPane.minWidthProperty().multiply(0.2));
-        leftPane.maxWidthProperty().bind(borderPane.maxWidthProperty().multiply(0.2));
-        leftPane.prefWidthProperty().bind(borderPane.prefWidthProperty().multiply(0.2));
+        hbox.minWidthProperty().bind(borderPane.minWidthProperty());
+        hbox.maxWidthProperty().bind(borderPane.maxWidthProperty());
+        hbox.prefWidthProperty().bind(borderPane.prefWidthProperty());
+        
+        leftPane.minWidthProperty().bind(hbox.minWidthProperty().multiply(0.2));
+        leftPane.maxWidthProperty().bind(hbox.maxWidthProperty().multiply(0.2));
+        leftPane.prefWidthProperty().bind(hbox.prefWidthProperty().multiply(0.2));
        
-        centralPane.minWidthProperty().bind(borderPane.minWidthProperty().subtract(leftPane.translateXProperty().add(leftPane.minWidthProperty())));
-        centralPane.maxWidthProperty().bind(borderPane.maxWidthProperty().subtract(leftPane.translateXProperty().add(leftPane.maxWidthProperty())));
-        centralPane.prefWidthProperty().bind(borderPane.prefWidthProperty().subtract(leftPane.translateXProperty().add(leftPane.prefWidthProperty())));
+        centralPane.minWidthProperty().bind(hbox.minWidthProperty().subtract(leftPane.translateXProperty().add(leftPane.minWidthProperty())));
+        centralPane.maxWidthProperty().bind(hbox.maxWidthProperty().subtract(leftPane.translateXProperty().add(leftPane.maxWidthProperty())));
+        centralPane.prefWidthProperty().bind(hbox.prefWidthProperty().subtract(leftPane.translateXProperty().add(leftPane.prefWidthProperty())));
         
-        centralPane.translateXProperty().bind(leftPane.translateXProperty().add(leftPane.prefWidthProperty()));
+        centralPane.translateXProperty().bind(leftPane.prefWidthProperty().add(leftPane.translateXProperty()));
         
-        
+        System.out.println("AAA: " + leftPane.prefWidthProperty().add(leftPane.translateXProperty()).getValue());
         
 //          System.out.println("MIN: " + borderPane.minWidthProperty().getValue());
 //          System.out.println("MAX: " + borderPane.maxWidthProperty().getValue());
@@ -128,8 +135,12 @@ public class ClientGUIController implements Initializable {
         
         
         boton.setOnAction(e -> {
-            System.out.println("X: " + leftPane.translateXProperty().getValue());
-            System.out.println("Xt: " + centralPane.translateXProperty().getValue() );
+            System.out.println("leftX: " + leftPane.translateXProperty().getValue());
+            System.out.println("leftWidth: " + leftPane.widthProperty().getValue() );
+            System.out.println("centralX: " + centralPane.translateXProperty().getValue() );
+            System.out.println("\nborderWidth: " + borderPane.widthProperty().getValue() );
+            System.out.println("centralWidth: " + centralPane.widthProperty().getValue() );
+            System.out.println("RESTA: " + hbox.minWidthProperty().subtract(leftPane.translateXProperty().add(leftPane.minWidthProperty())).getValue());
             if(bol)
             {
                 translateTransition.toXProperty().set(-leftPane.getWidth());

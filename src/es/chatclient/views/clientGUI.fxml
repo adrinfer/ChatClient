@@ -8,9 +8,6 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="798.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.chatclient.controllers.viewcontrollers.ClientGUIController">
-   <left>
-      <Pane fx:id="leftPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER" />
-   </left>
    <top>
       <Pane prefHeight="80.0" prefWidth="1074.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER">
          <children>
@@ -19,6 +16,11 @@
       </Pane>
    </top>
    <center>
-      <Pane fx:id="centralPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: yellow;" BorderPane.alignment="CENTER" />
+      <HBox fx:id="hbox" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="leftPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: green;" />
+            <Pane fx:id="centralPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: yellow;" />
+         </children>
+      </HBox>
    </center>
 </BorderPane>
