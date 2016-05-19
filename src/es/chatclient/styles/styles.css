@@ -324,3 +324,40 @@ and open the template in the editor.
 /***************************
     FIN LIST VIEW GENÉRICO
 ****************************/
+
+
+
+.separator{
+    -fx-background-color: #e79423; 
+    -fx-background-radius: 5;
+    -fx-background-insets: -2 -1 -2 -1; /* top right bottom left */ 
+    -fx-padding: 2; /* if 0 then bg color #e79423 won't be seen */
+}
+
+.separator:vertical .line { 
+    /* 
+    line is region or stackpane (not sure about that) has -fx-padding property see jfx CSS StackPane for more info here : 
+    see CSS Ref: http://download.oracle.com/docs/cd/E17802_01/javafx/javafx/1.3/docs/api/javafx.scene/doc-files/cssref.html#stack
+    -fx-background-insets applies only to background colors not borders:
+    see here: http://download.oracle.com/docs/cd/E17802_01/javafx/javafx/1.3/docs/api/javafx.scene/doc-files/cssref.html#region
+    */
+    -fx-background-color: yellow, red; /* if padding lets say >=3 line becomes rectangle and bg color can be seen */
+    -fx-background-insets: 2, 8 4 8 4; /* as i know insets only apply to background not border */ 
+    -fx-border-color: green; /* changes line/border color of line/region */
+    -fx-border-width: 2; /* width of line/border */
+    -fx-border-radius: 5;
+    -fx-border-style: dashed;
+    -fx-padding: 3 5 3 5; /* change this to : 1 0 0 0 and only thin line will be visible for "stronger/fatter" line change to 1 1 1 1 */
+    /* for -fx-padding we can say that it in some way "resizes" that line/region */
+    /* or you can use -fx-shape to setup bigger line shape */
+}
+
+.separator:horizontal .line {
+    -fx-background-color: yellow, blue; /* if padding lets say >=3 line becomes rectangle and bg color can be seen */
+    -fx-background-insets: 1 3 1 3, 4 8 4 8; /* as i know insets only apply to background not border */ 
+    -fx-border-color: green; /* changes line/border color of line/region */ 
+    -fx-border-width: 2; /* width of line/border */
+    -fx-border-radius: 5;
+    -fx-border-style: dashed;
+    -fx-padding: 5 3 5 3; /* change this to : 1 0 0 0 and only thin line will be visible for "stronger/fatter" line change to 1 1 1 1 */
+}

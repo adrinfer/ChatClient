@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.chatclient.controllers.viewcontrollers.ClientGUIController">
-    <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
-    </children>
-</AnchorPane>
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="798.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.chatclient.controllers.viewcontrollers.ClientGUIController">
+   <left>
+      <Pane fx:id="leftPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER" />
+   </left>
+   <top>
+      <Pane prefHeight="80.0" prefWidth="1074.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="boton" layoutX="663.0" layoutY="34.0" mnemonicParsing="false" text="Button" />
+         </children>
+      </Pane>
+   </top>
+   <center>
+      <Pane fx:id="centralPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: yellow;" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
