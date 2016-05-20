@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.Timeline;
@@ -26,6 +28,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 /**
@@ -36,137 +39,148 @@ public class ClientGUIController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
-    
+
     @FXML
     private Pane leftPane;
-    
+
     @FXML
     private Button boton;
-    
+
     @FXML
     private Pane centralPane;
-    
+
     @FXML
     private HBox hbox;
-    
+
     private TranslateTransition translateTransition;
-    
+
     private boolean bol = true;
     private double with;
-    
-    private void init()
-    {
+
+    //Instancia de la clase (Singleton)
+    private static ClientGUIController instance = null;
+    private final static Lock INSTANCIATION_LOCK = new ReentrantLock();
+
+    //Constructor por defecto
+    private ClientGUIController() {
+        //logicController = Controller.getInstance();
+        //perController = PersistenceController.getInstance();
+
+        //Añadir al controlador el observador de esta clase
+        //(Para atender cambios)
+        //logicController.addObserver(this);
+        System.out.println("AAAAA");
+    }
+
+    //Singleton para la instancia
+    public static ClientGUIController getInstance() {
+
+        if (instance == null) {
+            INSTANCIATION_LOCK.lock();
+
+            try {
+                if (instance == null) //Comprobamos que no se haya inicializado mientras se esperaba al cerrojo
+                {
+                    instance = new ClientGUIController();
+                }
+            } finally {
+                INSTANCIATION_LOCK.unlock();
+            }
+        }
+        return instance;
+
+    }
+
+    private void init() {
         //split.setDividerPosition(1, 0.9);
-        
+
         Gson gson = new Gson();
-        
+
         hbox.minWidthProperty().bind(borderPane.minWidthProperty());
         hbox.maxWidthProperty().bind(borderPane.maxWidthProperty());
         hbox.prefWidthProperty().bind(borderPane.prefWidthProperty());
-        
+
         leftPane.minWidthProperty().bind(hbox.minWidthProperty().multiply(0.2));
         leftPane.maxWidthProperty().bind(hbox.maxWidthProperty().multiply(0.2));
         leftPane.prefWidthProperty().bind(hbox.prefWidthProperty().multiply(0.2));
-       
+
         centralPane.minWidthProperty().bind(hbox.minWidthProperty().subtract(leftPane.translateXProperty().add(leftPane.minWidthProperty())));
         centralPane.maxWidthProperty().bind(hbox.maxWidthProperty().subtract(leftPane.translateXProperty().add(leftPane.maxWidthProperty())));
         centralPane.prefWidthProperty().bind(hbox.prefWidthProperty().subtract(leftPane.translateXProperty().add(leftPane.prefWidthProperty())));
-        
-        centralPane.translateXProperty().bind(leftPane.prefWidthProperty().add(leftPane.translateXProperty()));
-        
-        System.out.println("AAA: " + leftPane.prefWidthProperty().add(leftPane.translateXProperty()).getValue());
-        
+
+        centralPane.translateXProperty().bind(leftPane.translateXProperty());
+
 //          System.out.println("MIN: " + borderPane.minWidthProperty().getValue());
 //          System.out.println("MAX: " + borderPane.maxWidthProperty().getValue());
 //          System.out.println("PREF: " + borderPane.prefWidthProperty().getValue());
-
 //          centralPane.minWidthProperty().bind(borderPane.minWidthProperty());
 //          centralPane.maxWidthProperty().bind(borderPane.maxWidthProperty());
 //          centralPane.prefWidthProperty().bind(borderPane.prefWidthProperty());
-        
-//          System.out.println("CMIN: " + centralPane.minWidthProperty().getValue());          
+//          System.out.println("CMIN: " + centralPane.minWidthProperty().getValue());
 //          System.out.println("CMAX: " + centralPane.maxWidthProperty().getValue());
 //          System.out.println("CPREF: " + centralPane.prefWidthProperty().getValue());
-        //try 
+        //try
         //{
-            //Socket s = new Socket("localhost", 53013);
-            //System.out.println("SOCKET CREADO");
-            //DataOutputStream out = new DataOutputStream(s.getOutputStream());
-            //System.out.println("OUTPUT CREADO");
-            //Request r = new Request(Request.LOGIN);
-            //r.setUserData("adrinfer", "adrinfer", "adrinfer", "email");
-            //out.writeUTF(gson.toJson(r));
-            
-            
-            //a.writerFor(NetworkMessage.class).writeValues(s.getOutputStream()).write(new RegisterMessage());
-            //System.out.println("MENSAJE ENVIADO");
-            
-            //DataInputStream in = new DataInputStream(s.getInputStream());
-            
-            //System.out.println("ESPERANDO LECTURA");
-            //String a = in.readUTF();
-            
-           // System.out.println("LECTURA: " + a);
-            
-            
-            
-            
-            
-            
-       //} 
-        //catch (IOException ex) 
-        //{
-            //Logger.getLogger(ClientGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        //Socket s = new Socket("localhost", 53013);
+        //System.out.println("SOCKET CREADO");
+        //DataOutputStream out = new DataOutputStream(s.getOutputStream());
+        //System.out.println("OUTPUT CREADO");
+        //Request r = new Request(Request.LOGIN);
+        //r.setUserData("adrinfer", "adrinfer", "adrinfer", "email");
+        //out.writeUTF(gson.toJson(r));
+        //a.writerFor(NetworkMessage.class).writeValues(s.getOutputStream()).write(new RegisterMessage());
+        //System.out.println("MENSAJE ENVIADO");
+        //DataInputStream in = new DataInputStream(s.getInputStream());
+        //System.out.println("ESPERANDO LECTURA");
+        //String a = in.readUTF();
+        // System.out.println("LECTURA: " + a);
         //}
-        
+        //catch (IOException ex)
+        //{
+        //Logger.getLogger(ClientGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        //}
         boton.setText("AAAA");
-        
-        
+
         with = 0;
-               
+
         translateTransition = TranslateTransitionBuilder.create()
-                .duration(Duration.seconds(4))
+                .duration(Duration.seconds(1))
                 .node(leftPane)
                 .fromX(0)
                 .toX(0)
                 .cycleCount(Timeline.INDEFINITE)
                 .autoReverse(true)
                 .build();
-        
-        
+
         boton.setOnAction(e -> {
             System.out.println("leftX: " + leftPane.translateXProperty().getValue());
-            System.out.println("leftWidth: " + leftPane.widthProperty().getValue() );
-            System.out.println("centralX: " + centralPane.translateXProperty().getValue() );
-            System.out.println("\nborderWidth: " + borderPane.widthProperty().getValue() );
-            System.out.println("centralWidth: " + centralPane.widthProperty().getValue() );
+            System.out.println("leftWidth: " + leftPane.widthProperty().getValue());
+            System.out.println("centralX: " + centralPane.translateXProperty().getValue());
+            System.out.println("\nborderWidth: " + borderPane.widthProperty().getValue());
+            System.out.println("centralWidth: " + centralPane.widthProperty().getValue());
             System.out.println("RESTA: " + hbox.minWidthProperty().subtract(leftPane.translateXProperty().add(leftPane.minWidthProperty())).getValue());
-            if(bol)
-            {
+            if (bol) {
                 translateTransition.toXProperty().set(-leftPane.getWidth());
-               translateTransition.play(); 
-               bol = false;
-               
-               
-            }
-            else
-            {
+                translateTransition.play();
+                bol = false;
+
+            } else {
                 translateTransition.stop();
                 bol = true;
             }
-            
-            
-            
-            
+
         });
-        
-        
+
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         init();
-        
-    }    
-    
+
+    }
+
+    public Pane getLeftPane() {
+        return leftPane;
+    }
+
 }

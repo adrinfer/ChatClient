@@ -19,7 +19,11 @@
       <HBox fx:id="hbox" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Pane fx:id="leftPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: green;" />
-            <Pane fx:id="centralPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: yellow;" />
+            <Pane fx:id="centralPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: yellow;">
+               <children>
+                  <Button layoutX="14.0" layoutY="87.0" mnemonicParsing="false" text="Button" />
+                  <Button layoutX="148.0" layoutY="140.0" mnemonicParsing="false" text="Button" />
+               </children></Pane>
          </children>
       </HBox>
    </center>
