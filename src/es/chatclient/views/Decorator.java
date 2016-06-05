@@ -46,9 +46,9 @@ public class Decorator extends AnchorPane {
 
     //Constructor
     public Decorator(Stage stage, Node node) {
-
+            
         super();
-
+        //Pane leftPane = ClientGUIController.getInstance().getLeftPane();
         this.stage = stage;
         this.setPadding(new Insets(0, 0, 0, 0));
 
@@ -134,8 +134,10 @@ public class Decorator extends AnchorPane {
                 stage.setHeight(newHeight);
             }
 
-//            Pane leftPane = ClientGUIController.getInstance().getLeftPane();
-//            leftPane.setTranslateX(leftPane.getWidth());
+            
+            //leftPane.translateXProperty().bind(leftPane.translateXProperty().add(leftPane.widthProperty().getValue()));
+            //leftPane.setTranslateX(0);
+            
         });
 
         btnRes.setOnMouseEntered((event) -> {

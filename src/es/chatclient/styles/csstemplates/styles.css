@@ -8,12 +8,100 @@ and open the template in the editor.
     Author     : Practicas01
 */
 
+
+
+/*************
+    PANELES
+*************/
+.topPane {
+    -fx-background-color: -sky;
+}
+
+.bottomPane {
+    -fx-background-color: -sky;
+}
+
+.bottomPane {
+    -fx-background-color: -sky;
+}
+
+
+.leftPane {
+    -fx-background-color: -g5;
+}
+
+.borderPane {
+    -fx-background-color: -g6;
+}
+
+.userTitleHBox {
+    -fx-background-color: -g5;
+    -fx-border-width: 4 4 4 4; 
+    -fx-border-color: -g6;
+}
+
+
+
+
+/* UserBox - en el LeftPane */
+.userBox:hover {
+    
+    -fx-padding: 0 0 0 5;
+    
+}
+
+/************************
+    LIST VIEW GENÉRICO - Lista usuarios leftPane
+*************************/
+.list-view {
+    
+}
+
+.list-view:hover {
+    
+}
+
+.list-view:focused {
+    
+}
+
+
+.list-view .cell {
+    
+}
+
+
+.list-view .scroll-bar:horizontal {
+   
+}
+
+.list-cell:selected:focused *, .list-cell:selected {
+   
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: -sky;
+    -fx-text-fill: white;
+    
+}
+
+.list-cell:hover, .list-cell:filled:hover {
+    -fx-background-color: -sky_30;
+    -fx-text-fill: white;
+    
+}
+
+
+
+
+
+
 /**********************
     BOTON GENÉRICO
 **********************/
 
 .button {
-    -fx-text-fill: white;
+    -fx-text-fill: -g3;
     -fx-background-color: rgb(96,96,96);
 }
 
@@ -292,34 +380,7 @@ and open the template in the editor.
 *********************/
 
 
-/************************
-    LIST VIEW GENÉRICO - Lista usuarios leftPane
-*************************/
 
-.list-view:hover {
-    -fx-border-width: 1px;
-    -fx-border-color: rgb(96, 96, 96);
-}
-
-.list-view:focused {
-    -fx-border-width: 2px;
-    -fx-border-color: rgb(96, 96, 96);
-}
-
-
-.list-view .cell {
-    -fx-padding: 1 ;
-}
-
-
-.list-view .scroll-bar:horizontal {
-    -fx-opacity: 0;
-    -fx-padding:-7;
-}
-
-.list-cell:selected:focused *, .list-cell:selected {
-   -fx-background-color: white;
-}
 
 /***************************
     FIN LIST VIEW GENÉRICO

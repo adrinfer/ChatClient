@@ -5,6 +5,7 @@
  */
 package chatclient;
 
+import es.chatclient.controllers.viewcontrollers.ClientGUIController;
 import es.chatclient.views.Decorator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +22,8 @@ public class ChatClient extends Application {
 
     private Scene scene;
     private BorderPane root;
-
+    private FXMLLoader loader;
+    
     private static Stage primaryStage;
 
     public static Stage getPrimaryStage() {
@@ -46,14 +48,21 @@ public class ChatClient extends Application {
 
     //Cargar css utilizados - Debe ser llamado despues de crear la escena.
     private void loadStyles() {
-        scene.getStylesheets().add(getClass().getResource("/es/chatclient/styles/styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/es/chatclient/styles/cssgenerated/styles.css").toExternalForm());
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         setPrimaryStage(primaryStage);
-        root = FXMLLoader.load(getClass().getResource("/es/chatclient/views/clientGUI.fxml"));
-
+        primaryStage.setTitle("PrimaryStage");
+         
+        
+        loader = new FXMLLoader(getClass().getResource("/es/chatclient/views/clientGUI.fxml"));
+        loader.setController(ClientGUIController.getInstance());
+        root = loader.load();
+        
+        
+          
         Decorator decoratorRoot = new Decorator(primaryStage, root);
 
         scene = new Scene(decoratorRoot);

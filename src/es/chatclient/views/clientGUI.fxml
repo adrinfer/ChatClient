@@ -7,24 +7,45 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="798.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.chatclient.controllers.viewcontrollers.ClientGUIController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="798.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <Pane prefHeight="80.0" prefWidth="1074.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER">
+      <Pane fx:id="topPane" prefHeight="54.0" prefWidth="1074.0" style="-fx-background-color: 0e8be04d;" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="boton" layoutX="663.0" layoutY="34.0" mnemonicParsing="false" text="Button" />
+            <Button fx:id="boton" layoutX="663.0" layoutY="15.0" mnemonicParsing="false" text="Button" />
          </children>
       </Pane>
    </top>
-   <center>
-      <HBox fx:id="hbox" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+   <bottom>
+      <Pane fx:id="bottomPane" prefHeight="43.0" prefWidth="1074.0" BorderPane.alignment="CENTER">
          <children>
-            <Pane fx:id="leftPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: green;" />
-            <Pane fx:id="centralPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: yellow;">
+            <HBox fx:id="hBoxBottom" prefHeight="43.0" prefWidth="200.0" style="-fx-background-color: ;">
                <children>
-                  <Button layoutX="14.0" layoutY="87.0" mnemonicParsing="false" text="Button" />
-                  <Button layoutX="148.0" layoutY="140.0" mnemonicParsing="false" text="Button" />
-               </children></Pane>
+                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Button" textAlignment="CENTER" />
+               </children>
+            </HBox>
+         </children></Pane>
+   </bottom>
+   <left>
+      <Pane fx:id="leftPane" prefHeight="689.0" prefWidth="233.0" BorderPane.alignment="CENTER">
+         <children>
+            <ListView fx:id="listUsersBox" prefHeight="200.0" prefWidth="200.0" />
          </children>
-      </HBox>
+      </Pane>
+   </left>
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <top>
+            <HBox fx:id="userTitleHBox" prefHeight="52.0" prefWidth="874.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="252.0" style="-fx-padding: 0 0 0 30;">
+                     <children>
+                        <Label text="Adrián" />
+                        <Label text="En linea" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </top>
+      </BorderPane>
    </center>
 </BorderPane>
