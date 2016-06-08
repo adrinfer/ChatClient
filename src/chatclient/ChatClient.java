@@ -6,13 +6,18 @@
 package chatclient;
 
 import es.chatclient.controllers.viewcontrollers.ClientGUIController;
+import es.chatclient.controllers.viewcontrollers.LoginGUIController;
+import es.chatclient.resources.Images;
+import es.chatclient.utils.Utils;
 import es.chatclient.views.Decorator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -54,23 +59,35 @@ public class ChatClient extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         setPrimaryStage(primaryStage);
-        primaryStage.setTitle("PrimaryStage");
-         
+        primaryStage.setTitle("LoginStage");
+        primaryStage.getIcons().add(Images.getImage(Images.APP_ICON));
         
-        loader = new FXMLLoader(getClass().getResource("/es/chatclient/views/clientGUI.fxml"));
-        loader.setController(ClientGUIController.getInstance());
+        
+//        loader = new FXMLLoader(getClass().getResource("/es/chatclient/views/clientGUI.fxml"));
+//        loader.setController(ClientGUIController.getInstance());
+//        root = loader.load();
+        
+        loader = new FXMLLoader(getClass().getResource("/es/chatclient/views/loginGUI.fxml"));
+        loader.setController(LoginGUIController.getInstance());
         root = loader.load();
         
-        
           
-        Decorator decoratorRoot = new Decorator(primaryStage, root);
+        //Decorator decoratorRoot = new Decorator(primaryStage, root);
 
-        scene = new Scene(decoratorRoot);
+        scene = new Scene(root);
+        
         loadStyles();
+        
+        
+        primaryStage.initStyle(StageStyle.TRANSPARENT);
+        
+        
         primaryStage.setScene(scene);
+        
         primaryStage.show();
-
+        
         setBindings();
+         
     }
 
     /**

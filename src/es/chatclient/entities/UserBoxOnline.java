@@ -5,13 +5,7 @@
  */
 package es.chatclient.entities;
 
-import chatclient.ChatClient;
-import es.chatclient.controllers.viewcontrollers.ClientGUIController;
-import es.chatclient.interfaces.Box;
-import es.chatclient.logic.Controller;
 import es.chatclient.resources.Images;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -29,44 +23,18 @@ import javafx.scene.text.Text;
 
 /**
  *
- * @author Adrián Fernández Cano
+ * @author adrinfer
  */
-public class UserBox implements Box {
+public class UserBoxOnline {
     
     
     
-    //Deberia tener un objeto cliente, usuario o algo
-    
-    private Controller logicController = Controller.getInstance();
-    
-    //ArraList of messages to this userBox (conver or client)
-    private List<UserMessage> messageList = new ArrayList();
     
     
-    private final UserBox current;
-    
-    public void setMessageList(List<UserMessage> messageList)
-    {
-        this.messageList = messageList;
-    }
-    
-    public List<UserMessage> getMessageList()
-    {
-        return messageList;
-    }
-    
-    public UserBox()
-    {
-        this.current = this;
-        
-    }
     
     
-    public UserBox(List<UserMessage> messageList)
-    {
-        this.current = this;
-        
-    }
+    
+    
     
     
     public BorderPane getUserBox()
@@ -94,53 +62,38 @@ public class UserBox implements Box {
         ImageView image = new ImageView(Images.CLOSE_ICON);
         
         Label nick = new Label("  Name");
-        Label text = new Label("  Text ");
-        
-        Text time = new Text("4.06.2016");
+      
         
         VBox vBox = new VBox();
-        
-        Pane fakePane = new Pane();
-        
+              
 
-        vBox.getChildren().addAll(nick, text);
+        vBox.getChildren().addAll(nick);
         
-        HBox.setHgrow(fakePane, Priority.ALWAYS);
+        vBox.setAlignment(Pos.CENTER);
         
         
         //CSS
         borderPane.getStyleClass().add("userBox");
         vBox.getStyleClass().add("borderPaneVBox");
-        time.getStyleClass().add("time");
+        
         
         //Add final elements
          Platform.runLater(() -> {
-            mainPane.getChildren().addAll(image, vBox, fakePane, time);
+            mainPane.getChildren().addAll(image, vBox);
             borderPane.setCenter(mainPane);
         });
         
-         borderPane.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println("Tile pressed ");
-                logicController.setActiveChat(current);
-                
-            }
-       });
+//         borderPane.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+//
+//            @Override
+//            public void handle(MouseEvent event) {
+//                System.out.println("Tile pressed ");
+//                logicController.setActiveChat(current);
+//                
+//            }
+//       });
          
         return borderPane;
-    }
-
-    @Override
-    public List<UserMessage> getMessages() {
-        return getMessageList();
-    }
-
-    @Override
-    public void addMessage(UserMessage msg) {
-        this.messageList.add(msg);
-        
     }
     
     

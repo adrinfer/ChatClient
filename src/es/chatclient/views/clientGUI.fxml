@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,45 +9,71 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="798.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <Pane fx:id="topPane" prefHeight="54.0" prefWidth="1074.0" style="-fx-background-color: 0e8be04d;" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="boton" layoutX="663.0" layoutY="15.0" mnemonicParsing="false" text="Button" />
-         </children>
-      </Pane>
-   </top>
-   <bottom>
-      <Pane fx:id="bottomPane" prefHeight="43.0" prefWidth="1074.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox fx:id="hBoxBottom" prefHeight="43.0" prefWidth="200.0" style="-fx-background-color: ;">
+<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="606.0" prefWidth="806.0">
+         <bottom>
+            <Pane fx:id="bottomPane" prefHeight="43.0" prefWidth="1074.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Button" textAlignment="CENTER" />
-               </children>
-            </HBox>
-         </children></Pane>
-   </bottom>
-   <left>
-      <Pane fx:id="leftPane" prefHeight="689.0" prefWidth="233.0" BorderPane.alignment="CENTER">
-         <children>
-            <ListView fx:id="listUsersBox" prefHeight="200.0" prefWidth="200.0" />
-         </children>
-      </Pane>
-   </left>
-   <center>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <top>
-            <HBox fx:id="userTitleHBox" prefHeight="52.0" prefWidth="874.0" BorderPane.alignment="CENTER">
-               <children>
-                  <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="252.0" style="-fx-padding: 0 0 0 30;">
+                  <HBox fx:id="hBoxBottom" prefHeight="43.0" prefWidth="200.0" style="-fx-background-color: ;">
                      <children>
-                        <Label text="Adrián" />
-                        <Label text="En linea" />
+                        <Button fx:id="botonPrueba" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Button" textAlignment="CENTER" />
                      </children>
-                  </VBox>
+                  </HBox>
                </children>
-            </HBox>
+            </Pane>
+         </bottom>
+         <center>
+            <BorderPane fx:id="borderPaneCenter" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER">
+               <bottom>
+                  <HBox fx:id="hBoxTextField" prefHeight="33.0" prefWidth="841.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <TextField fx:id="textFieldTextToSend" alignment="CENTER" />
+                     </children>
+                  </HBox>
+               </bottom>
+               <center>
+                  <StackPane fx:id="stackPaneCenter" prefHeight="508.0" prefWidth="739.0" style="-fx-background-color: ;" BorderPane.alignment="CENTER">
+                     <children>
+                        <ImageView fx:id="imgViewBg" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                        <ListView fx:id="listCenter" maxHeight="-Infinity" prefHeight="615.0" prefWidth="841.0" />
+                     </children>
+                  </StackPane>
+               </center>
+               <top>
+                  <HBox fx:id="userTitleHBox" prefHeight="52.0" prefWidth="874.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="252.0" style="-fx-padding: 0 0 0 30;">
+                           <children>
+                              <Label text="Adrián" />
+                              <Label text="En linea" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </top>
+            </BorderPane>
+         </center>
+         <left>
+            <Pane fx:id="leftPane" prefHeight="689.0" prefWidth="233.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ListView fx:id="listUsersBox" prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </Pane>
+         </left>
+         <top>
+            <Pane fx:id="topPane" prefHeight="54.0" prefWidth="1074.0" style="-fx-background-color: 0e8be04d;" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="boton" layoutX="663.0" layoutY="15.0" mnemonicParsing="false" text="Button" />
+                  <ImageView fx:id="imgViewLogoTopPane" fitHeight="40.0" fitWidth="41.0" layoutX="24.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/logoIcon3.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
          </top>
       </BorderPane>
-   </center>
-</BorderPane>
+      <Pane fx:id="rightPane" prefHeight="600.0" prefWidth="400.0" AnchorPane.bottomAnchor="50.0" />
+   </children>
+</AnchorPane>

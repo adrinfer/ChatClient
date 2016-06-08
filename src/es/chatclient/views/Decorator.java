@@ -12,17 +12,19 @@ package es.chatclient.views;
 import chatclient.ChatClient;
 import es.chatclient.controllers.viewcontrollers.ClientGUIController;
 import es.chatclient.resources.Images;
+import es.chatclient.utils.Utils;
 import javafx.animation.ScaleTransition;
 import javafx.animation.ScaleTransitionBuilder;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -39,10 +41,15 @@ public class Decorator extends AnchorPane {
     private double oldX;
     private double oldY;
 
+    private Rectangle2D visualBounds;
+  
+    
     //Buttons
     private final Button btnMax;
     private final Button btnClose;
     private Button btnRes;
+    
+    private final ClientGUIController guiController = ClientGUIController.getInstance();
 
     //Constructor
     public Decorator(Stage stage, Node node) {
@@ -51,6 +58,7 @@ public class Decorator extends AnchorPane {
         //Pane leftPane = ClientGUIController.getInstance().getLeftPane();
         this.stage = stage;
         this.setPadding(new Insets(0, 0, 0, 0));
+        this.visualBounds = Screen.getPrimary().getVisualBounds();
 
         //Ajustar nodo recibido a las esquinas
         AnchorPane.setTopAnchor(node, 0.0);
@@ -61,7 +69,10 @@ public class Decorator extends AnchorPane {
         //Boón para maximizar la ventana
         btnMax = buildButton("Max", Images.getImage(Images.MAX_ICON), Images.getImage(Images.MAX_ICON_HOVER));
         btnMax.setOnAction((event) -> {
-            this.stage.setMaximized(!this.stage.isMaximized());
+            
+            
+            Utils.maximize();
+            
         });
 
         //Posición botón maximizar
@@ -114,6 +125,11 @@ public class Decorator extends AnchorPane {
             this.oldY = event.getSceneY();
             this.oldWidth = stage.getWidth();
             this.oldHeight = stage.getHeight();
+            
+            
+            
+            
+            
 
         });
 
@@ -133,7 +149,16 @@ public class Decorator extends AnchorPane {
             if (newHeight >= 430) {
                 stage.setHeight(newHeight);
             }
-
+            
+            
+            if(ClientGUIController.showRightPane)
+            {
+                guiController.getRightPane().setTranslateX(ChatClient.getPrimaryStage().getWidth() - guiController.getRightPane().getWidth());
+            }
+            else
+            {
+                guiController.getRightPane().setTranslateX(ChatClient.getPrimaryStage().getWidth());
+            }
             
             //leftPane.translateXProperty().bind(leftPane.translateXProperty().add(leftPane.widthProperty().getValue()));
             //leftPane.setTranslateX(0);
@@ -183,4 +208,6 @@ public class Decorator extends AnchorPane {
         btnMax.setVisible(value);
     }
 
+
+    
 }

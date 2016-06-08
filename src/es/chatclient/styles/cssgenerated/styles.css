@@ -22,12 +22,14 @@ and open the template in the editor.
 }
 
 .bottomPane {
-    -fx-background-color: #0e8be0;
+    -fx-background-color: #0e8be0;  
 }
 
 
 .leftPane {
     -fx-background-color: #D3D3D3;
+    -fx-padding: 4 4 4 4;
+    
 }
 
 .borderPane {
@@ -40,14 +42,48 @@ and open the template in the editor.
     -fx-border-color: #C5C5C5;
 }
 
+.stackPaneCenter {
+    -fx-background-color: #D3D3D3;
+}
 
+.listCenter {
+    -fx-background-color: transparent;
+    -fx-border-width: 4 4 4 4; 
+    -fx-border-color: #C5C5C5;
+}
+
+.rightPane {
+    -fx-background-color: #0e8be0;
+}
 
 
 /* UserBox - en el LeftPane */
+.userBox {
+    -fx-padding: 10 10 10 15;
+    
+}
+
 .userBox:hover {
+    -fx-padding: 10 10 10 20;
     
-    -fx-padding: 0 0 0 5;
+}
+
+.borderPaneVBox {
+    -fx-padding: 0 10 0 10;
+}
+
+
+
+.time {
+    -fx-font: 11px "Comic Sans";
+    -fx-fill: #696969;
+}
+
+.timeMessage {
+    -fx-font: 11px "Comic Sans";
+    -fx-fill: #696969;
     
+
 }
 
 /************************
@@ -62,7 +98,7 @@ and open the template in the editor.
 }
 
 .list-view:focused {
-    
+    -fx-background-color: transparent;
 }
 
 
@@ -76,7 +112,7 @@ and open the template in the editor.
 }
 
 .list-cell:selected:focused *, .list-cell:selected {
-   
+   -fx-text-fill: white;
 }
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
@@ -91,6 +127,90 @@ and open the template in the editor.
     
 }
 
+
+.list-cell:odd { -fx-background-color: #D3D3D3;; /* 1 */ }
+.list-cell:even { -fx-background-color: #D3D3D3;; /* for information */ }
+
+
+
+.listMessages {
+    -fx-background-color: transparent;
+}
+
+.listMessages:hover {
+    
+}
+
+.listMessages:focused {
+    
+}
+
+
+.listMessages .cell {
+    -fx-background-color: transparent;
+}
+
+
+.listMessages .scroll-bar:horizontal {
+   
+}
+
+.listMessages list-cell:selected:focused *, listMessages .list-cell:selected {
+   
+}
+
+.listMessages .list-cell:filled:selected:focused, listMessages .list-cell:filled:selected {
+    -fx-background-color: red;
+    -fx-text-fill: white;
+    
+}
+
+.listMessages .list-cell:hover, .listMessages .list-cell:filled:hover {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    
+}
+.listMessages .list-cell:empty {
+    -fx-opacity: 0;
+}
+
+.listMessages list-cell:odd { -fx-background-color: white; /* 1 */ }
+.listMessages list-cell:even { -fx-background-color: white; /* for information */ }
+
+
+
+/*  CAJA DE CADA MENSAJE */
+
+.messageBoxMain {
+    
+    -fx-padding: 0 0 0 15px;
+}
+
+.messageBox {
+    -fx-background-color: transparent;
+    -fx-padding: 10px;
+    -fx-border-radius: 0 10 10 0;
+    -fx-background-radius: 0 10 10 0; 
+}
+
+/* Imagen y hora de messageBox */
+.vBoxMessageBox {
+    
+    -fx-background-color: transparent;
+    
+}
+
+
+.flowText {
+    -fx-background-color: white;
+    -fx-padding: 10 10 10 10;
+    -fx-border-radius: 0 10 10 0;
+    -fx-background-radius: 0 10 10 0;
+}
+
+.imageDate {
+    -fx-padding: 0 10 5 0;
+}
 
 
 
@@ -158,6 +278,50 @@ and open the template in the editor.
     FIN TEXT FIELD GENÉRICO
 *****************************/
 
+/*************************
+    TEXT FIELD TEXT TO SEND
+*************************/
+
+.textField  {
+    -fx-background-color: #0e8be0, white , white;
+    -fx-background-insets: -2 0 0 0, 1 0 1 0, 6 0 0 0;
+    -fx-font: 14px "Comic Sans";
+    -fx-font-weight: bold;
+}
+
+.textField:hover {
+    -fx-background-color: #0e8be0, #B6DBF5, #B6DBF5;
+    -fx-background-insets: -2 0 0 0, 1 0 1 0, 6 0 0 0;
+    -fx-font: 14px "Comic Sans";
+    -fx-font-weight: bold;
+}
+
+.textField:focused {
+    -fx-background-color: #0e8be0, #BDBDBD, #BDBDBD;
+    -fx-background-insets: -2 0 0 0, 1 0 1 0, 6 0 0 0;
+    -fx-text-fill: white;
+    -fx-font: 14px "Comic Sans";
+    -fx-font-weight: bold;
+}
+
+.textField .text-field-error {
+    -fx-background-color: red , white , white;
+    -fx-background-insets: -1 -1 -1 -1, 1 1 1 1, 5 -1 5 -1;
+}
+
+.textField .text-field-error:hover {
+    -fx-background-color: red, red, red;
+    -fx-background-insets: -1 -1 -1 -1, 1 1 1 1, 5 -1 5 -1;
+}
+
+.textField .text-field-error:focused {
+    -fx-background-color: red, red, red;
+    -fx-background-insets: -1 -1 -1 -1, 1 1 1 1, 5 -1 5 -1;
+}
+
+/*****************************
+    FIN TEXT FIELD TEXT TO SEND
+*****************************/
 
 /**********************
     CSS SCROLL BAR
@@ -176,7 +340,7 @@ and open the template in the editor.
 }
 .scroll-bar:vertical .track-background,
 .scroll-bar:horizontal .track-background {
- -fx-background-color: transparent;
+ -fx-background-color: #D3D3D3;
  -fx-background-insets: 0;
  ;
 }
@@ -185,13 +349,13 @@ and open the template in the editor.
  -fx-background-insets: 4 0 4 0;
  
 }
-.scroll-bar:vertical .thumb {
+.scroll-bar:vertical .thumb { /* Palo que se arrastra */
  -fx-background-color: rgb(96,96,96);
  -fx-background-insets: 0 4 0 4;
  
 }
 .scroll-bar:horizontal .thumb:hover,
-.scroll-bar:vertical .thumb:hover {
+.scroll-bar:vertical .thumb:hover { /* Palo que se arrastra hover */
  -fx-background-color: rgb(130, 130, 130);
 }
 .scroll-bar:horizontal .thumb:pressed,

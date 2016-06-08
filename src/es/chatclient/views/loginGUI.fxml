@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="307.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Pane fx:id="topPane" prefHeight="67.0" prefWidth="500.0" style="-fx-background-color: #0e8be0;" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="buttonClose" layoutX="423.0" layoutY="21.0" mnemonicParsing="false" text="Button" />
+         </children></Pane>
+   </top>
+   <center>
+      <HBox prefHeight="240.0" prefWidth="532.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="322.0" prefWidth="250.0" style="-fx-background-color: #F3F3F3;">
+               <children>
+                  <ImageView cache="true" fitHeight="170.0" fitWidth="142.0" layoutX="55.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+                     <image>
+                        <Image url="@../resources/logoNuevo2.png" />
+                     </image>
+                  </ImageView>
+               </children></Pane>
+            <Pane prefHeight="240.0" prefWidth="23.0" />
+            <VBox alignment="CENTER" prefHeight="322.0" prefWidth="79.0" style="-fx-spacing: 30;">
+               <children>
+                  <Label style="-: 5;" text="Username:" />
+                  <Label style="-: 5;" text="Password:" />
+                  <Label />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-spacing: 20;">
+               <children>
+                  <TextField />
+                  <PasswordField />
+                  <Button fx:id="loginButton" mnemonicParsing="false" text="Button" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+</BorderPane>
