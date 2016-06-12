@@ -10,11 +10,17 @@ import chatclient.ChatClient;
 import es.chatclient.controllers.viewcontrollers.ClientGUIController;
 import java.text.SimpleDateFormat;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
+import javafx.animation.ScaleTransition;
+import javafx.animation.ScaleTransitionBuilder;
+import javafx.animation.Timeline;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  *
@@ -122,6 +128,14 @@ public class Utils {
     public static void maximize()
     {
         
+//        ScaleTransition scaleTransition = ScaleTransitionBuilder.create()
+//                .duration(Duration.seconds(4))
+//                .toX(3)
+//                .toY(3)
+//                .cycleCount(Timeline.INDEFINITE)
+//                .autoReverse(true)
+//                .build();
+        
         if(!isMaximized)
         {
             Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();  
@@ -132,6 +146,8 @@ public class Utils {
             ChatClient.getPrimaryStage().setWidth(visualBounds.getWidth());
             ChatClient.getPrimaryStage().setHeight(visualBounds.getHeight());
             Utils.isMaximized = true;
+            
+            
         }
         else
         {

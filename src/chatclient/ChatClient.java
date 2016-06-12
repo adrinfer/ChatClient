@@ -5,16 +5,11 @@
  */
 package chatclient;
 
-import es.chatclient.controllers.viewcontrollers.ClientGUIController;
 import es.chatclient.controllers.viewcontrollers.LoginGUIController;
 import es.chatclient.resources.Images;
-import es.chatclient.utils.Utils;
-import es.chatclient.views.Decorator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -87,7 +82,7 @@ public class ChatClient extends Application {
         primaryStage.show();
         
         setBindings();
-         
+               
     }
 
     /**

@@ -5,14 +5,12 @@
  */
 package es.chatclient.entities;
 
-import es.chatclient.controllers.viewcontrollers.ClientGUIController;
 import es.chatclient.resources.Images;
 import es.chatclient.utils.Utils;
 import java.util.Date;
 import javafx.application.Platform;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;

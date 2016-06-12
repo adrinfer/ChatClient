@@ -212,7 +212,15 @@ and open the template in the editor.
     -fx-padding: 0 10 5 0;
 }
 
+/*****
+ LABEL REGISTRO
+*******/
 
+.labelRegistro:hover {
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    
+}
 
 
 
@@ -231,6 +239,7 @@ and open the template in the editor.
     -fx-border-width: 1px;
     -fx-border-radius: 2;
     -fx-border-color: rgb(96,96,96);
+    -fx-cursor: hand;
 }
 
 /**********************

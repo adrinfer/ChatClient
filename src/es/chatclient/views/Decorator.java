@@ -1,13 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
 package es.chatclient.views;
 
 /**
  *
- * @author Practicas01
+ * @author Adrián Fernández Cano
  */
 import chatclient.ChatClient;
 import es.chatclient.controllers.viewcontrollers.ClientGUIController;
@@ -15,7 +12,6 @@ import es.chatclient.resources.Images;
 import es.chatclient.utils.Utils;
 import javafx.animation.ScaleTransition;
 import javafx.animation.ScaleTransitionBuilder;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
@@ -47,6 +43,7 @@ public class Decorator extends AnchorPane {
     //Buttons
     private final Button btnMax;
     private final Button btnClose;
+    private final Button btnMinimize;
     private Button btnRes;
     
     private final ClientGUIController guiController = ClientGUIController.getInstance();
@@ -66,6 +63,19 @@ public class Decorator extends AnchorPane {
         AnchorPane.setBottomAnchor(node, 0.0);
         AnchorPane.setLeftAnchor(node, 0.0);
 
+        
+        //Boón para maximizar la ventana
+        btnMinimize = buildButton("Min", Images.getImage(Images.MINIMIZE_ICON), Images.getImage(Images.MINIMIZE_ICON_HOVER));
+        btnMinimize.setOnAction((event) -> {
+            
+            
+            stage.setIconified(true);
+            
+        });
+        
+        AnchorPane.setRightAnchor(btnMinimize, 115.0);
+        AnchorPane.setTopAnchor(btnMinimize, 9.1);
+        
         //Boón para maximizar la ventana
         btnMax = buildButton("Max", Images.getImage(Images.MAX_ICON), Images.getImage(Images.MAX_ICON_HOVER));
         btnMax.setOnAction((event) -> {
@@ -76,9 +86,13 @@ public class Decorator extends AnchorPane {
         });
 
         //Posición botón maximizar
-        AnchorPane.setRightAnchor(btnMax, 60.0);
-        AnchorPane.setTopAnchor(btnMax, 6.5);
+        AnchorPane.setRightAnchor(btnMax, 70.0);
+        AnchorPane.setTopAnchor(btnMax, 9.1);
 
+        
+        
+        
+        
         //Botón para cerrar la ventana
         btnClose = buildButton("Close", Images.getImage(Images.CLOSE_ICON), Images.getImage(Images.CLOSE_ICON_HOVER));
 
@@ -99,7 +113,10 @@ public class Decorator extends AnchorPane {
                 //Cerrar cuando termine la animación
                 scaleTransitionClose.setOnFinished((e) -> {
 
-                    Platform.exit(); //Cerrar toda la aplicación
+                    
+                    stage.close();
+                    System.exit(0);
+                    //Platform.exit(); //Cerrar toda la aplicación
 
                 });
 
@@ -113,8 +130,8 @@ public class Decorator extends AnchorPane {
         });
 
         //Posición boton close
-        AnchorPane.setRightAnchor(btnClose, 13.0);
-        AnchorPane.setTopAnchor(btnClose, 6.5);
+        AnchorPane.setRightAnchor(btnClose, 25.0);
+        AnchorPane.setTopAnchor(btnClose, 9.1);
 
         //Botón para redimensionar la ventana
         btnRes = buildButton("Resize", Images.getImage(Images.RESIZE_ICON), Images.getImage(Images.RESIZE_ICON_HOVER));
@@ -125,18 +142,17 @@ public class Decorator extends AnchorPane {
             this.oldY = event.getSceneY();
             this.oldWidth = stage.getWidth();
             this.oldHeight = stage.getHeight();
-            
-            
-            
-            
-            
 
+            
         });
 
+        
+        
         btnRes.setOnMouseReleased((event) -> {
             btnRes.setGraphic(new ImageView(Images.getImage(Images.RESIZE_ICON)));
         });
 
+        
         btnRes.setOnMouseDragged((event) -> {
             btnRes.setGraphic(new ImageView(Images.getImage(Images.RESIZE_ICON_PRESSED)));
             double newWidth = this.oldWidth + (event.getSceneX() - this.oldX);
@@ -151,6 +167,7 @@ public class Decorator extends AnchorPane {
             }
             
             
+            //Move the rightPane when resize the window
             if(ClientGUIController.showRightPane)
             {
                 guiController.getRightPane().setTranslateX(ChatClient.getPrimaryStage().getWidth() - guiController.getRightPane().getWidth());
@@ -174,7 +191,7 @@ public class Decorator extends AnchorPane {
         AnchorPane.setRightAnchor(btnRes, 1.5);
         AnchorPane.setBottomAnchor(btnRes, 1.5);
 
-        this.getChildren().addAll(node, btnMax, btnClose, btnRes);
+        this.getChildren().addAll(node, btnMinimize, btnMax, btnClose, btnRes);
 
     }
 

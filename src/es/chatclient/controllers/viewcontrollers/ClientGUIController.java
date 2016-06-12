@@ -1,8 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
 package es.chatclient.controllers.viewcontrollers;
 
 import chatclient.ChatClient;
@@ -10,7 +7,6 @@ import com.google.gson.Gson;
 import es.chatclient.entities.UserBox;
 import es.chatclient.entities.UserMessage;
 import es.chatclient.interfaces.Box;
-import es.chatclient.interfaces.Observer;
 import es.chatclient.logic.Controller;
 import es.chatclient.utils.Utils;
 import java.net.URL;
@@ -18,7 +14,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.animation.TranslateTransitionBuilder;
 import javafx.collections.FXCollections;
@@ -28,7 +23,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
@@ -49,7 +43,7 @@ import javafx.util.Duration;
 
 /**
  *
- * @author Practicas01
+ * @author Adrián Fernández Cano
  */
 public class ClientGUIController implements Initializable {
 
@@ -368,6 +362,7 @@ public class ClientGUIController implements Initializable {
         
         
     }
+    
     
     private void setNodesCss()
     {

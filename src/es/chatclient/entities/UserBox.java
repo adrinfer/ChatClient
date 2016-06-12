@@ -5,8 +5,6 @@
  */
 package es.chatclient.entities;
 
-import chatclient.ChatClient;
-import es.chatclient.controllers.viewcontrollers.ClientGUIController;
 import es.chatclient.interfaces.Box;
 import es.chatclient.logic.Controller;
 import es.chatclient.resources.Images;
@@ -16,7 +14,6 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;

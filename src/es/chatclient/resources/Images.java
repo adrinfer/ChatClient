@@ -20,7 +20,11 @@ public class Images {
     public final static String RESIZE_ICON = "/es/chatclient/resources/resizeIcon.png";
     public final static String RESIZE_ICON_HOVER = "/es/chatclient/resources/resizeIconHover.png";
     public final static String RESIZE_ICON_PRESSED = "/es/chatclient/resources/resizeIconPressed.png";
+    public final static String MINIMIZE_ICON = "/es/chatclient/resources/minimizeIcon.png";
+    public final static String MINIMIZE_ICON_HOVER = "/es/chatclient/resources/minimizeIconHover.png";
+    
     public final static String APP_ICON = "/es/chatclient/resources/logoIcon2.png";
+    
 
     public static Image getImage(String url) {
         return new Image(url);
