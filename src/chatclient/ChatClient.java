@@ -6,7 +6,11 @@
 package chatclient;
 
 import es.chatclient.controllers.viewcontrollers.LoginGUIController;
+import es.chatclient.logic.Controller;
 import es.chatclient.resources.Images;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -58,13 +62,31 @@ public class ChatClient extends Application {
         primaryStage.getIcons().add(Images.getImage(Images.APP_ICON));
         
         
+        
 //        loader = new FXMLLoader(getClass().getResource("/es/chatclient/views/clientGUI.fxml"));
 //        loader.setController(ClientGUIController.getInstance());
 //        root = loader.load();
         
         loader = new FXMLLoader(getClass().getResource("/es/chatclient/views/loginGUI.fxml"));
+        
+        //The login controller instance initialize the Controller too, and the
+        //Controller initialize the gui controller.
         loader.setController(LoginGUIController.getInstance());
         root = loader.load();
+        
+        //On close stage request.
+        //The controller are initialized in the loader.setController
+        primaryStage.setOnCloseRequest((event) -> {
+            try 
+            {
+                Controller.getInstance().closeConexion();
+            }
+            catch (IOException ex) 
+            {
+                Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        });
         
           
         //Decorator decoratorRoot = new Decorator(primaryStage, root);

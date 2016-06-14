@@ -7,7 +7,10 @@ package es.chatclient.entities;
 
 import es.chatclient.resources.Images;
 import es.chatclient.utils.Utils;
+import java.text.ParseException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -27,7 +30,7 @@ public class UserMessage {
     
     
     //private Client cliente;
-    public static int a = 0;
+    private String userNick;
     
     private String msgDate;
     
@@ -44,6 +47,13 @@ public class UserMessage {
     {
         this.message = message;   
         this.msgDate = Utils.getDfMessage().format(new Date());
+    }
+    
+    public UserMessage(String userNick, String message, String date)
+    {
+        this.userNick = userNick;
+        this.message = message;   
+        this.msgDate = date;
     }
     
     public BorderPane getUserMessage()

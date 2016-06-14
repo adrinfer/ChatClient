@@ -34,7 +34,10 @@ public class UserBox implements Box {
     
     //Deberia tener un objeto cliente, usuario o algo
     
-    private Controller logicController = Controller.getInstance();
+    private final String converId;
+    private final String converName;
+    
+    private final Controller logicController;
     
     //ArraList of messages to this userBox (conver or client)
     private List<UserMessage> messageList = new ArrayList();
@@ -42,8 +45,31 @@ public class UserBox implements Box {
     
     private final UserBox current;
     
+    
+    public UserBox(String converId, String converName)
+    {
+        this.logicController = Controller.getInstance();
+        this.converId = converId;
+        this.converName = converName;
+        this.current = this;
+        
+    }
+    
+    
+    public UserBox(String converId, String converName, List<UserMessage> messageList)
+    {
+        
+        this.logicController = Controller.getInstance();
+        this.converId = converId;
+        this.converName = converName;
+        this.messageList = messageList;
+        this.current = this;
+        
+    }
+    
     public void setMessageList(List<UserMessage> messageList)
     {
+        
         this.messageList = messageList;
     }
     
@@ -52,19 +78,10 @@ public class UserBox implements Box {
         return messageList;
     }
     
-    public UserBox()
+    public String getConverId()
     {
-        this.current = this;
-        
+        return this.converId;
     }
-    
-    
-    public UserBox(List<UserMessage> messageList)
-    {
-        this.current = this;
-        
-    }
-    
     
     public BorderPane getUserBox()
     {
@@ -90,10 +107,10 @@ public class UserBox implements Box {
         
         ImageView image = new ImageView(Images.CLOSE_ICON);
         
-        Label nick = new Label("  Name");
-        Label text = new Label("  Text ");
+        Label nick = new Label("  " + converName);
+        Label text = new Label("  ... ");
         
-        Text time = new Text("4.06.2016");
+        Text time = new Text(" --- ");
         
         VBox vBox = new VBox();
         

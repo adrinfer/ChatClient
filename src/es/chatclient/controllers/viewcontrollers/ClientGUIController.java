@@ -8,12 +8,29 @@ import es.chatclient.entities.UserBox;
 import es.chatclient.entities.UserMessage;
 import es.chatclient.interfaces.Box;
 import es.chatclient.logic.Controller;
+import es.chatclient.server.messages.ConverData;
+import es.chatclient.server.messages.ConversDataMessage;
+import es.chatclient.server.messages.Message;
+import es.chatclient.server.messages.requests.RequestMessage;
+import es.chatclient.utils.Status;
 import es.chatclient.utils.Utils;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.animation.RotateTransition;
+import javafx.animation.RotateTransitionBuilder;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.animation.TranslateTransitionBuilder;
 import javafx.collections.FXCollections;
@@ -37,6 +54,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 import javafx.util.Callback;
 import javafx.util.Duration;
@@ -108,10 +127,17 @@ public class ClientGUIController implements Initializable {
     @FXML
     private HBox hbox;
 
+    final BorderPane loadingBorderPane;
+    final RotateTransition loadingRotateTransition;
+    private long startLoading;
+    
     private TranslateTransition translateTransition;
 
     public static Boolean showRightPane = false;
     private Boolean unlock = true;
+    
+    
+    private Callable<Boolean> loadDataThread;
     
     private ObservableList<UserMessage> currentMessages;
     
@@ -124,8 +150,26 @@ public class ClientGUIController implements Initializable {
     //Constructor por defecto
     private ClientGUIController() {
         
-        this.currentMessages = FXCollections.observableArrayList();
         this.logicController = Controller.getInstance(this); //Send this class 
+
+        this.currentMessages = FXCollections.observableArrayList();
+        
+        
+        loadingBorderPane= new BorderPane();
+        
+        Rectangle rect = new Rectangle(100, 100, Color.rgb(14, 139, 224, 0.9));
+            rect.setArcHeight(20);
+            rect.setArcWidth(20);
+            
+        loadingBorderPane.setCenter(rect);
+        loadingRotateTransition = RotateTransitionBuilder.create()
+                    .node(rect)
+                    .duration(Duration.seconds(1))
+                    .fromAngle(0)
+                    .toAngle(720)
+                    .cycleCount(Timeline.INDEFINITE)
+                    .autoReverse(true)
+                    .build();
         
         
         //logicController = Controller.getInstance();
@@ -161,7 +205,8 @@ public class ClientGUIController implements Initializable {
     private void bindings()
     {
         
-        System.out.println("MAIN BORDER -> " + borderPane.heightProperty().doubleValue());
+        //Loading pane
+        
         
         borderPane.minWidthProperty().bind(mainAnchorPane.minWidthProperty());
         borderPane.maxWidthProperty().bind(mainAnchorPane.maxWidthProperty());
@@ -320,45 +365,182 @@ public class ClientGUIController implements Initializable {
     private void initializeListUserBox()
     {
         
-        //AQUI HABRA QUE USAR JPA, CONTROLADOR PRINCIPAL ETC
-        
-        
-        
-        
-        
-        
-        ObservableList<UserBox> items =FXCollections.observableArrayList();
-
-        for(int x = 0; x< 6; x++)
-        {
-            UserBox userBox = new UserBox();
-            items.add(userBox);
-        }
-        
-        
-        listUsersBox.setItems(items);
-
-        
         listUsersBox.setCellFactory(new Callback<ListView<UserBox>, ListCell<UserBox>>() {
-
-                @Override
-                public ListCell<UserBox> call(ListView<UserBox> param) {
-                    return new ListCell<UserBox>(){
-
-                        @Override
-                        protected void updateItem(UserBox item, boolean empty) {
-
-                            super.updateItem(item, empty);
-                            if(item != null){
-
-                                setGraphic(item.getUserBox());
-
-                            }
+            
+            @Override
+            public ListCell<UserBox> call(ListView<UserBox> param) {
+                return new ListCell<UserBox>(){
+                    
+                    @Override
+                    protected void updateItem(UserBox item, boolean empty) {
+                        
+                        super.updateItem(item, empty);
+                        if(item != null){
+                            
+                            setGraphic(item.getUserBox());
+                            
                         }
+                    }
+                    
+                };
+            }
+        });
+        
+        //AQUI HABRA QUE USAR JPA, CONTROLADOR PRINCIPAL ETC
+//        List<ConverData> converList = new ArrayList();
+//        List<Message> msgList = new ArrayList();
+//        
+//        for(int x = 0; x < 10; x++)
+//        {
+//            msgList.add(new Message("1", "2" , "Contenido del mensaje", Utils.getDfMessage().format(new Date()), "29", "11"));
+//        }
+//        
+//        for(int x = 0; x < 3; x++)
+//        {
+//            converList.add(new ConverData("11", "Nombre conversacion " + x + "", msgList));
+//        }
+//        
+//        ConversDataMessage conversData = new ConversDataMessage(converList);
+        
+        
+        
+        //Thread that manage the initial load data
+        loadDataThread = (Callable) new Callable() {
+            
+            
+            @Override
+            public Boolean call() throws Exception {
+                
+                showLoading();
+                RequestMessage dataRequest = new RequestMessage(logicController.getUserNick(), RequestMessage.GET_DATA);
+                
+                String dataRequestJson = logicController.getGson().toJson(dataRequest);
+                
+                try {
+                    
+                    //Send the GET_DATA request to the server
+                    logicController.getOutputStream().writeUTF(dataRequestJson);
+                    
+                    //Wait the server response
+                    String jsonResponse = logicController.getInputStream().readUTF();
+                    System.out.println("RESPUESTA DEL FUTURO -> " + jsonResponse);
+                    
+                    if(!Objects.equals(jsonResponse, String.valueOf(Status.ERROR))) 
+                    {
+                        ConversDataMessage conversData = logicController.getGson().fromJson(jsonResponse, ConversDataMessage.class);
+                        ObservableList<UserBox> items = FXCollections.observableArrayList();
+                        for(ConverData converData: conversData.getConverDataArray())
+                        {
+                            
+                             
 
-                    };
+                            List<UserMessage> userMsgList = new ArrayList();
+                            
+                            for(Message msg: converData.getConverMessages())
+                            {
+                                userMsgList.add(new UserMessage(msg.getUserNick(), msg.getMsgText(), msg.getMsgDate()));
+                               
+                            }
+                            
+                            UserBox userBox = new UserBox(converData.getConverID(), converData.getConverName(), userMsgList);
+                            items.add(userBox);
+   
+                            
+                        }
+                        //Out of loop
+                        listUsersBox.setItems(items);
+                        
+                    }
+                    else // ¿ERROR?
+                    {
+                        
+                    }
+                            
+             
+                    stopLoading();
                 }
-            });
+                catch (IOException ex) {
+                    Logger.getLogger(ClientGUIController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
+                return Boolean.TRUE;
+            }
+        };
+        
+        //Thread that run the thread that manage de initial data
+        //Is necessary for wait to the future response of the server
+        Runnable futureThread = () -> {
+            
+            //Run the thread that realice the loading of the data
+            Future futureResult = logicController.sumbitThread(loadDataThread);
+            
+            try {
+                System.err.println("ESPERANDO FUTURO");
+                System.err.println("FUTUROOOOOOOOO ->> " + futureResult.get().toString());
+            }
+            catch (InterruptedException ex) {
+                Logger.getLogger(ClientGUIController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            catch (ExecutionException ex) {
+                Logger.getLogger(ClientGUIController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        };
+               
+        try
+        {
+            logicController.sumbitThread(futureThread);
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+       
+        
+        
+        
+        
+        
+        
+        
+//        String j = "";
+//        try
+//        {
+//             j = logicController.getGson().toJson(conversData);
+//        }
+//        catch(Exception ex)
+//        {
+//            ex.printStackTrace();
+//        }
+//        
+//        //System.out.println("GSON CONVERSACIONES ----> \n " + j);
+//        
+//        ConversDataMessage data = null;
+//        try
+//        {
+//             data = logicController.getGson().fromJson(j, ConversDataMessage.class);
+//        }
+//        catch(Exception ex)
+//        {
+//            ex.printStackTrace();
+//        }
+        
+//        System.out.println("OBJETO DATA -> ");
+//        for(ConverData data2: data.getConverDataArray())
+//        {
+//            System.out.println("CONVER ID: " + data2.getConverID());
+//            System.out.println("CONVER NAME: " + data2.getConverName());
+//            
+//            for(Message m: data2.getConverMessages())
+//            {
+//                System.out.println("MSG ID: " + m.getMsgID());
+//                System.out.println("MSG CONVER ID: " + m.getConverId());
+//                System.out.println("MSG DATE: " + m.getMsgDate());
+//                System.out.println("MSG TEXT: " + m.getMsgText());
+//            }
+//        }
+        
+        
         
         
     }
@@ -424,6 +606,26 @@ public class ClientGUIController implements Initializable {
                 if (ke.getCode().equals(KeyCode.ENTER))
                 {
                     logicController.addMessage(textFieldTextToSend.getText());
+                    
+                    Message outputMessage = new Message();
+                    outputMessage.setMsgID("");
+                    outputMessage.setUserNick(logicController.getUserNick());
+                    outputMessage.setConverId(logicController.getActiveChat().getConverId());
+                    outputMessage.setClientId(""); //El servidor lo completa usando el nick
+                    outputMessage.setMsgDate(Utils.getDfMessage().format(new Date()));
+                    outputMessage.setMsgType("0");
+                    outputMessage.setMsgText(textFieldTextToSend.getText());
+                    
+                    String outputJson = logicController.getGson().toJson(outputMessage);
+                    
+                    try 
+                    {
+                        logicController.getOutputStream().writeUTF(outputJson);
+                    }
+                    catch (IOException ex) 
+                    {
+                        Logger.getLogger(ClientGUIController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     System.out.println("ENTER");
                 }
             }
@@ -550,9 +752,66 @@ public class ClientGUIController implements Initializable {
 //
 //        });
 
+
+
+        
         
 
+    }
+    
+    public void showLoading()
+    {
+        showLoading(true);
+    }
+    
+    private void showLoading(boolean show)
+    {
+        
+        
+        
+        if(show)
+        {
 
+
+            
+            loadingBorderPane.minWidthProperty().bind(mainAnchorPane.minWidthProperty());
+            loadingBorderPane.maxWidthProperty().bind(mainAnchorPane.maxWidthProperty());
+            loadingBorderPane.prefWidthProperty().bind(mainAnchorPane.prefWidthProperty());
+
+            loadingBorderPane.minHeightProperty().bind(mainAnchorPane.minHeightProperty());
+            loadingBorderPane.maxHeightProperty().bind(mainAnchorPane.maxHeightProperty());
+            loadingBorderPane.prefHeightProperty().bind(mainAnchorPane.prefHeightProperty());
+
+            mainAnchorPane.getChildren().add(loadingBorderPane);
+
+            
+
+            loadingBorderPane.getStyleClass().add("loadingBorderPane");
+            loadingBorderPane.setVisible(true);
+
+            loadingRotateTransition.play(); 
+            
+            //The animation duration is at least 2 seconds
+            try {
+                Thread.sleep(2000);
+            }
+            catch (InterruptedException ex) {
+                Logger.getLogger(ClientGUIController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        else
+        {
+            loadingBorderPane.setVisible(false);
+            loadingRotateTransition.stop();
+        }
+        
+        
+    }
+    
+    private void stopLoading()
+    {
+        showLoading(false);
     }
 
     @Override

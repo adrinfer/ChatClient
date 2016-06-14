@@ -10,12 +10,20 @@ import com.google.gson.GsonBuilder;
 import es.chatclient.controllers.viewcontrollers.ClientGUIController;
 import es.chatclient.entities.UserBox;
 import es.chatclient.entities.UserMessage;
+import es.chatclient.server.messages.ConversDataMessage;
+import es.chatclient.server.messages.Message;
+import es.chatclient.server.messages.adapters.ConversDataMessageTypeAdapter;
 import es.chatclient.server.messages.adapters.NetworkMessage;
 import es.chatclient.server.messages.adapters.RequestMessageTypeAdapter;
+import es.chatclient.server.messages.adapters.ServerMessageTypeAdapter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
@@ -31,8 +39,25 @@ public class Controller {
     public static final int SERVER_PORT = 30000;
     public static final String SERVER_ADDRESS = "localhost";
     
+    //The userNick logged
+    private String userNick;
+    
+    public void setUserNick(String userNick)
+    {
+        this.userNick = userNick;
+    }
+    
+    public String getUserNick()
+    {
+        return this.userNick;
+    }
+    
+    
+    
     //Instance of the Gson used in Client
     private Gson gson;
+    
+    private ExecutorService executorService;
     
     //Socket 
     private Socket socket;
@@ -63,14 +88,33 @@ public class Controller {
     
     private Controller(ClientGUIController guiController)
     {
+        this.userNick = null;
         this.guiController = guiController;
-        
+        this.executorService = Executors.newFixedThreadPool(10);
         final GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(NetworkMessage.class, new RequestMessageTypeAdapter());
+        gsonBuilder.registerTypeAdapter(ConversDataMessage.class, new ConversDataMessageTypeAdapter());
+        gsonBuilder.registerTypeAdapter(Message.class, new ServerMessageTypeAdapter());
         gsonBuilder.setPrettyPrinting();
+        
+        
+        Message m = new Message("String1", "String2", "String3", "String4", "String5", "String6");
+        
         
 
         this.gson = gsonBuilder.create();
+        
+        System.err.println("TO JSON MESSAGE");
+        String json = gson.toJson(m);
+        System.out.println(json);
+        
+        System.err.println("FROM JSON MESSAGE");
+        Message m2 = gson.fromJson(json, Message.class);
+        
+        System.out.println(m2.getClientId());
+        System.out.println(m2.getConverId());
+        System.out.println(m2.getMsgText());
+        System.out.println(m2.getUserNick());
         
         
     }
@@ -159,6 +203,11 @@ public class Controller {
         {
             this.socket.close();
         }
+        
+        if(!executorService.isShutdown() && userNick != null)
+        {
+            executorService.shutdownNow();
+        }
     }
     
     
@@ -174,6 +223,16 @@ public class Controller {
     }
     
     
+    public void sumbitThread(Runnable runnable)
+    {
+        this.executorService.submit(runnable);
+    }
+    
+    public Future sumbitThread(Callable callable)
+    {
+        return this.executorService.submit(callable);
+    }
+    
     
     //Change the active chat
     private void changeChat()
@@ -187,6 +246,9 @@ public class Controller {
         
         UserMessage message = new UserMessage(msg);
         message.getUserMessage();
+        
+        
+        
         activeChat.addMessage(message);
         guiController.addMessageAndInflate(message);
         

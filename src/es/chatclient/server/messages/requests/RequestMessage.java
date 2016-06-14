@@ -21,10 +21,11 @@ public class RequestMessage implements NetworkMessage {
     private int requestType;
     
     
-    //REQUEST TPES
+    //REQUEST TYPES
     public final static int LOGIN = 0;
     public final static int REGISTER = 1;
     public final static int LOGOUT = 2;
+    public final static int GET_DATA = 3;
     
     
     
@@ -35,6 +36,16 @@ public class RequestMessage implements NetworkMessage {
         this.userNick = "";
         this.userPassword = "";
         this.email = "";
+        //this.loginDate = null;
+    }
+    
+    public RequestMessage(String userNick, int requestType)
+    {
+        this.name = "";
+        this.userNick = userNick;
+        this.userPassword = "";
+        this.email = "";
+        this.requestType = requestType;
         //this.loginDate = null;
     }
     

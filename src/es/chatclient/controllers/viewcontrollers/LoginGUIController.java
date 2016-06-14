@@ -234,14 +234,44 @@ public class LoginGUIController implements Initializable{
 
             
             System.out.println("RESPUESTA -> " + response);
+            
+            //Login successfully
             if(response == Status.LOGIN_OK)
             {
+                logicController.setUserNick(nickField.getText());
+                
                 this.showGui();
             }
             
+            //Login unsuccessfully - the user is locked
+            if(response == Status.USER_LOCK)
+            {
+                lblError.setText("Usuario\nbloqueado");
+                
+                try 
+                {
+                    logicController.closeConexion();
+                }
+                catch (IOException ex) 
+                {
+                    Logger.getLogger(LoginGUIController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            //Login error 
             if(response == Status.LOGIN_BAD)
             {
-                lblError.setText("Login error"); 
+                lblError.setText("Login error");
+                
+                try 
+                {
+                    logicController.closeConexion();
+                }
+                catch (IOException ex) 
+                {
+                    Logger.getLogger(LoginGUIController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
             }
             
             

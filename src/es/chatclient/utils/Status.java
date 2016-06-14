@@ -15,5 +15,7 @@ public class Status {
     public final static int USER_NICK_USED = 6;
     public final static int EMAIL_ALREADY_USED = 7;
     public final static int USER_EMAIL_USED = 8;
+    public final static int USER_LOCK = 9;
+    public final static int ERROR = 10;
     
 }

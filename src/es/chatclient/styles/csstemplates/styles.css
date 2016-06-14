@@ -13,6 +13,13 @@ and open the template in the editor.
 /*************
     PANELES
 *************/
+
+.loadingBorderPane {
+    -fx-background-color: -g6;
+    -fx-opacity: 0.8;
+}
+
+
 .topPane {
     -fx-background-color: -sky;
 }
