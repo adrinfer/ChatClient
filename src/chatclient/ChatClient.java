@@ -8,6 +8,7 @@ package chatclient;
 import es.chatclient.controllers.viewcontrollers.LoginGUIController;
 import es.chatclient.logic.Controller;
 import es.chatclient.resources.Images;
+import es.chatclient.server.messages.requests.RequestMessage;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +16,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -52,7 +54,9 @@ public class ChatClient extends Application {
 
     //Cargar css utilizados - Debe ser llamado despues de crear la escena.
     private void loadStyles() {
+        
         scene.getStylesheets().add(getClass().getResource("/es/chatclient/styles/cssgenerated/styles.css").toExternalForm());
+        
     }
 
     @Override
@@ -71,7 +75,11 @@ public class ChatClient extends Application {
         
         //The login controller instance initialize the Controller too, and the
         //Controller initialize the gui controller.
-        loader.setController(LoginGUIController.getInstance());
+        LoginGUIController loginController = LoginGUIController.getInstance();
+        
+        loader.setController(loginController);
+        loginController.setThisStage(primaryStage);
+        
         root = loader.load();
         
         //On close stage request.
@@ -79,6 +87,9 @@ public class ChatClient extends Application {
         primaryStage.setOnCloseRequest((event) -> {
             try 
             {
+                //Send to the server the logout message
+                Controller.getInstance().getOutputStream().writeUTF(String.valueOf(RequestMessage.LOGOUT));
+                Controller.getInstance().getOutputStream().flush();
                 Controller.getInstance().closeConexion();
             }
             catch (IOException ex) 
@@ -98,6 +109,10 @@ public class ChatClient extends Application {
         
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         
+        
+        Pane panel = new Pane();
+        
+        panel.getStyleClass().add("panel");
         
         primaryStage.setScene(scene);
         
